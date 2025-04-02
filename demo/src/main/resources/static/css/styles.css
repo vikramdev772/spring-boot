@@ -1,0 +1,21 @@
+/* Add any shared styles across all pages here */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+button {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+input, select {
+    box-sizing: border-box;
+}
+
+/* Add more shared styles as needed */

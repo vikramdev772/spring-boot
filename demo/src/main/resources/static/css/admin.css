@@ -1,0 +1,209 @@
+
+    body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .sidebar {
+        width: 15%;
+        background-color: #1e3a8a;
+        color: white;
+        padding: 20px;
+    }
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+
+    .sidebar ul li:hover, .active {
+        background-color: #2563eb;
+    }
+
+    .content {
+        width: 85%;
+        padding: 40px;
+        overflow-y: auto;
+    }
+
+    .content h1 {
+        font-size: 24px;
+    }
+
+    .content p {
+        margin-top: 10px;
+        color: #555;
+    }
+
+    /* Table Styles - Combined from both */
+    .inventory-table, .user-table, .report-table, .team-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .inventory-table th, .inventory-table td,
+    .user-table th, .user-table td, 
+    .report-table th, .report-table td, 
+    .team-table th, .team-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+        font-size: xx-small;
+    }
+
+    .inventory-table th, 
+    .user-table th, 
+    .report-table th, 
+    .team-table th {
+        background-color: #007BFF;
+        color: white;
+        font-size: xx-small;
+    }
+
+    .inventory-table tr:nth-child(even),
+    .user-table tr:nth-child(even), 
+    .report-table tr:nth-child(even), 
+    .team-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .inventory-table tr:hover,
+    .user-table tr:hover, 
+    .report-table tr:hover, 
+    .team-table tr:hover {
+        background-color: #ddd;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .add-btn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .delete-btn {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .export-btn {
+        background-color: #2196F3;
+        color: white;
+    }
+
+    .approve-btn, .reject-btn {
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: xx-small;
+    }
+
+    .approve-btn {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .reject-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        border-radius: 8px;
+    }
+
+    form {
+        font-size: xx-small;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .insert-btn, .delete-confirm-btn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .cancel-btn {
+        background-color: #f44336;
+        color: white;
+    }
+
+    /* Section Visibility */
+    .inventory-section {
+        display: block;
+    }
+
+    .report-section, .user-section, .team-section {
+        display: none;
+    }

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Desk</title>
+    <link rel="stylesheet" href="css/billing.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h2><u>Billing Desk</u></h2>
+            <div class="section">
+                <h3>Sales Person Info</h3>
+                <select id="salesPerson" name="salesPerson" required>
+                    <option value=""> Select Sales Person </option>
+                    <option value="EMP001">EMP001</option>
+                    <option value="EMP002">EMP002</option>
+                    <option value="EMP003">EMP003</option>
+                    <option value="EMP004">EMP004</option>
+                    <option value="EMP005">EMP005</option>
+                    <option value="EMP006">EMP006</option>
+                    <option value="EMP007">EMP007</option>
+                    <option value="EMP008">EMP008</option>
+                    <option value="EMP009">EMP009</option>
+                    <option value="EMP010">EMP010</option>
+                </select>
+            </div>
+            <div class="section">
+                <h3>Customer Info</h3>
+                <input type="text" id="customer-name" placeholder="Customer Name"><br><br>
+                <input type="text" id="customer-mobile" placeholder="Customer Mobile">
+            </div>
+            <div class="section">
+                <button onclick="showPopup()">Add Items</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Quantity</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billing-table-body"></tbody>
+                </table>
+                <div class="total-container">
+                    Total Price: <span id="total-price">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <button onclick="location.reload()">Cancel Transaction</button>
+        <button onclick="generateBill()">Generate Bill</button>
+    </div>
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h3>Add Product</h3>
+            <!-- <input type="text" id="product-id" placeholder="Product ID"><br><br> -->
+            <select id="product-id" name="product-id" required>
+                <option value=""> Select Product id </option>
+                <option value="BAR415907">BAR415907 - Cotton Silk (Blue)</option>
+                <option value="BAR956606">BAR956606 - Tussar Silk (Silver)</option>
+                <option value="BAR288814">BAR288814 - Kanchipuram (Purple)</option>
+                <option value="BAR424400">BAR424400 - Handloom (Blue)</option>
+                <option value="BAR504901">BAR504901 - Chanderi (Pink)</option>
+                <option value="BAR722707">BAR722707 - Organza (Orange)</option>
+                <option value="BAR414932">BAR414932 - Tant Cotton (Black)</option>
+                <option value="BAR927288">BAR927288 - Organza (Blue)</option>
+                <option value="BAR141158">BAR141158 - Tussar Silk (Maroon)</option>
+                <option value="BAR534188">BAR534188 - Mysore Silk (Orange)</option>
+            </select><br><br>
+           
+           
+            <input type="number" id="product-quantity" placeholder="Quantity"><br><br>
+            <input type="number" id="price" placeholder="Price"><br><br>
+            <input type="number" id="discount" placeholder="Discount"><br><br>
+            <button onclick="addItem()">Add</button>
+        </div>
+    </div>
+
+    <div class="popup" id="bill-popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeBillPopup()">&times;</span>
+            <h3>Invoice</h3>
+            <p><strong>Customer Name:</strong> <span id="bill-customer-name"></span></p>
+            <p><strong>Customer Mobile:</strong> <span id="bill-customer-mobile"></span></p>
+            <p id="id_in_invooice"><strong>Sales Person ID:</strong> <span id="bill-sales-person-id"></span></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Quantity</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="bill-table"></tbody>
+            </table>
+            <p><strong>Total Price:</strong> <span id="bill-total-price"></span></p>
+            <button onclick="window.print()">Print</button>
+            <button onclick="closeBillPopup()">Done</button>
+        </div>
+    </div>
+    <script src="js/billing.js"></script>
+</body>
+</html>

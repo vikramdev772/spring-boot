@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesperson Insights</title>
+    <link rel="stylesheet" href="css/sales.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Sales Insights</h2>
+            <button onclick="showSection('dashboard')">Dashboard</button>
+            <button onclick="showSection('leaderboard')">Leaderboard</button>
+            <button onclick="showSection('settings')">Settings</button>
+        </div>
+        
+        <div class="main-content">
+            <div id="dashboard" class="section">
+                <h3>Daily Commissions</h3>
+                <canvas id="commissionChart"></canvas>
+                <p id="totalCommission" class="total-commission"></p>
+            </div>
+            
+            <div id="leaderboard" class="section" style="display: none;">
+                <h3>Leaderboard</h3>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Level 1</th>
+                            <th>Level 2</th>
+                            <th>Level 3</th>
+                            <th>Level 4</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardData"></tbody>
+                </table>
+            </div>
+            
+            <div id="settings" class="section" style="display: none;">
+                <h3>Settings</h3>
+                <p>Settings functionality coming soon...</p>
+            </div>
+        </div>
+    </div>
+    <script src="js/sales.js"></script>
+</body>
+</html>

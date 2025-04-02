@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js" defer></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-blue-600 px-6 py-4">
+                <h1 class="text-white text-xl font-semibold">Employee Registration</h1>
+            </div>
+            
+            <div class="p-6" x-data="signupForm()">
+                <!-- Response message -->
+                <div 
+                    x-show="responseMessage" 
+                    :class="{ 
+                        'bg-green-50 border border-green-200 text-green-700': responseStatus === 'success',
+                        'bg-red-50 border border-red-200 text-red-700': responseStatus === 'error'
+                    }" 
+                    class="mb-4 p-4 rounded-md"
+                >
+                    <p x-text="responseMessage"></p>
+                </div>
+                
+                <form @submit.prevent="submitForm" class="space-y-6">
+                    <!-- Personal Information Section -->
+                    <div>
+                        <h2 class="text-lg font-medium text-gray-900 border-b pb-2 mb-4">Personal Information</h2>
+                        <div class="space-y-4">
+                            <!-- Full Name -->
+                            <div>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input 
+                                    type="text" 
+                                    id="fullName" 
+                                    x-model="form.fullName" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                >
+                            </div>
+                            
+                            <!-- Date of Birth -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                                <div class="mt-1 grid grid-cols-3 gap-2">
+                                    <div>
+                                        <label for="dobDay" class="sr-only">Day</label>
+                                        <select 
+                                            id="dobDay" 
+                                            x-model="form.dobDay" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Day</option>
+                                            <template x-for="day in 31" :key="day">
+                                                <option :value="day" x-text="day"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="dobMonth" class="sr-only">Month</label>
+                                        <select 
+                                            id="dobMonth" 
+                                            x-model="form.dobMonth" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Month</option>
+                                            <template x-for="(month, index) in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']" :key="index">
+                                                <option :value="index + 1" x-text="month"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="dobYear" class="sr-only">Year</label>
+                                        <select 
+                                            id="dobYear" 
+                                            x-model="form.dobYear" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Year</option>
+                                            <template x-for="year in getYears(1950, 2006)" :key="year">
+                                                <option :value="year" x-text="year"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Gender -->
+                            <div>
+                                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                                <select 
+                                    id="gender" 
+                                    x-model="form.gender" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                >
+                                    <option value="">Select gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                    <option value="Prefer not to say">Prefer not to say</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Address -->
+                            <div>
+                                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                                <textarea 
+                                    id="address" 
+                                    x-model="form.address" 
+                                    rows="2" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                ></textarea>
+                            </div>
+                            
+                            <!-- Phone Number -->
+                            <div>
+                                <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <input 
+                                    type="tel" 
+                                    id="phoneNumber" 
+                                    x-model="form.phoneNumber" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    placeholder="+1 (234) 567-8901"
+                                    required
+                                >
+                            </div>
+                            
+                            <!-- Email -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    x-model="form.email" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Section -->
+                    <div>
+                        <h2 class="text-lg font-medium text-gray-900 border-b pb-2 mb-4">Account Security</h2>
+                        <div class="space-y-4">
+                            <!-- Password -->
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700">Set Password</label>
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    x-model="form.password" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                    minlength="8"
+                                >
+                                <p class="mt-1 text-xs text-gray-500">Password must be at least 8 characters</p>
+                            </div>
+                            
+                            <!-- Confirm Password -->
+                            <div>
+                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                                <input 
+                                    type="password" 
+                                    id="confirmPassword" 
+                                    x-model="form.confirmPassword" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                    @blur="validatePasswordMatch()"
+                                >
+                                <p 
+                                    x-show="passwordError" 
+                                    class="mt-1 text-xs text-red-600" 
+                                    x-text="passwordError"
+                                ></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Employment Information Section -->
+                    <div>
+                        <h2 class="text-lg font-medium text-gray-900 border-b pb-2 mb-4">Employment Information</h2>
+                        <div class="space-y-4">
+                            <!-- Employee ID -->
+                            <div>
+                                <label for="employeeId" class="block text-sm font-medium text-gray-700">Employee ID</label>
+                                <input 
+                                    type="number" 
+                                    id="employeeId" 
+                                    x-model="form.employeeId" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                >
+                            </div>
+                            
+                            <!-- Date of Joining -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Date of Joining</label>
+                                <div class="mt-1 grid grid-cols-3 gap-2">
+                                    <div>
+                                        <label for="dojDay" class="sr-only">Day</label>
+                                        <select 
+                                            id="dojDay" 
+                                            x-model="form.dojDay" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Day</option>
+                                            <template x-for="day in 31" :key="day">
+                                                <option :value="day" x-text="day"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="dojMonth" class="sr-only">Month</label>
+                                        <select 
+                                            id="dojMonth" 
+                                            x-model="form.dojMonth" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Month</option>
+                                            <template x-for="(month, index) in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']" :key="index">
+                                                <option :value="index + 1" x-text="month"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="dojYear" class="sr-only">Year</label>
+                                        <select 
+                                            id="dojYear" 
+                                            x-model="form.dojYear" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Year</option>
+                                            <template x-for="year in getYears(2000, 2025)" :key="year">
+                                                <option :value="year" x-text="year"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Branch -->
+                            <div>
+                                <label for="branch" class="block text-sm font-medium text-gray-700">Branch</label>
+                                <select 
+                                    id="branch" 
+                                    x-model="form.branch" 
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required
+                                >
+                                    <option value="">Select branch</option>
+                                    <option value="Main Branch">Main Branch</option>
+                                    <option value="North Branch">North Branch</option>
+                                    <option value="South Branch">South Branch</option>
+                                    <option value="East Branch">East Branch</option>
+                                    <option value="West Branch">West Branch</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div>
+                        <button 
+                            type="submit" 
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            :disabled="isSubmitting || passwordError"
+                        >
+                            <span x-show="!isSubmitting">Register Employee</span>
+                            <span x-show="isSubmitting" class="flex items-center">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Processing...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function signupForm() {
+            return {
+                form: {
+                    fullName: '',
+                    dobDay: '',
+                    dobMonth: '',
+                    dobYear: '',
+                    gender: '',
+                    address: '',
+                    phoneNumber: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                    employeeId: '',
+                    dojDay: '',
+                    dojMonth: '',
+                    dojYear: '',
+                    branch: ''
+                },
+                isSubmitting: false,
+                responseMessage: '',
+                responseStatus: '',
+                passwordError: '',
+                
+                getYears(start, end) {
+                    return Array.from({ length: end - start + 1 }, (_, i) => end - i);
+                },
+                
+                validatePasswordMatch() {
+                    if (this.form.password !== this.form.confirmPassword) {
+                        this.passwordError = 'Passwords do not match';
+                    } else {
+                        this.passwordError = '';
+                    }
+                },
+                
+                async submitForm() {
+                    // Validate password match first
+                    this.validatePasswordMatch();
+                    if (this.passwordError) {
+                        return;
+                    }
+                    
+                    this.isSubmitting = true;
+                    this.responseMessage = '';
+                    
+                    try {
+                        const response = await fetch('http://localhost:6060/api/signup', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                fullName: this.form.fullName,
+                                dobDay: parseInt(this.form.dobDay),
+                                dobMonth: parseInt(this.form.dobMonth),
+                                dobYear: parseInt(this.form.dobYear),
+                                gender: this.form.gender,
+                                address: this.form.address,
+                                phoneNumber: this.form.phoneNumber,
+                                email: this.form.email,
+                                password: this.form.password,
+                                employeeId: parseInt(this.form.employeeId),
+                                dojDay: parseInt(this.form.dojDay),
+                                dojMonth: parseInt(this.form.dojMonth),
+                                dojYear: parseInt(this.form.dojYear),
+                                branch: this.form.branch
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.status === 'success') {
+                            this.responseStatus = 'success';
+                            this.responseMessage = `${data.message} (Employee ID: ${data.employeeId})`;
+                            // Reset form on success
+                            this.resetForm();
+                        } else {
+                            this.responseStatus = 'error';
+                            this.responseMessage = data.message || 'Error creating employee. Please try again.';
+                        }
+                    } catch (error) {
+                        this.responseStatus = 'error';
+                        this.responseMessage = 'Server error. Please check if the API server is running.';
+                        console.error('Error:', error);
+                    } finally {
+                        this.isSubmitting = false;
+                        // Scroll to top to show the message
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                },
+                
+                resetForm() {
+                    this.form = {
+                        fullName: '',
+                        dobDay: '',
+                        dobMonth: '',
+                        dobYear: '',
+                        gender: '',
+                        address: '',
+                        phoneNumber: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                        employeeId: '',
+                        dojDay: '',
+                        dojMonth: '',
+                        dojYear: '',
+                        branch: ''
+                    };
+                    this.passwordError = '';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .sidebar {
+            width: 15%;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar ul li:hover, .active {
+            background-color: #2563eb;
+        }
+
+        .content {
+            width: 85%;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .content h1 {
+            font-size: 24px;
+        }
+
+        .content p {
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .inventory-table th, .inventory-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: xx-small;
+        }
+
+        .inventory-table th {
+            background-color: #007BFF;
+            font-size: xx-small;
+            color: white;
+        }
+        
+
+        .inventory-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .inventory-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .export-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        form{
+            font-size: xx-small;
+    
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .insert-btn, .delete-confirm-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .cancel-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .inventory-section {
+            display: block;
+        }
+
+        .report-section, .user-section, .team-section {
+            display: none;
+        }
+       
+    </style> -->
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li class="active">Inventory</li>
+            <li>Reports</li>
+            <li>Users</li>
+            <li>Team</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="inventory-section">
+            <h1>Inventory Dashboard</h1>
+            <p>Manage your inventory items</p>
+            
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Product</th>
+                        <th>Material</th>
+                        <th>Color</th>
+                        <th>Qty</th>
+                        <th>Blouse</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                        <th>Disc%</th>
+                        <th>Sell</th>
+                        <th>Barcode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Cotton Silk</td>
+                        <td>Cotton Silk</td>
+                        <td>Blue</td>
+                        <td>21</td>
+                        <td>No</td>
+                        <td>28-01-24</td>
+                        <td>15074.30</td>
+                        <td>26.63</td>
+                        <td>11060.01</td>
+                        <td>BAR415907</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Tussar Silk</td>
+                        <td>Tussar Silk</td>
+                        <td>Silver</td>
+                        <td>45</td>
+                        <td>Yes</td>
+                        <td>22-12-24</td>
+                        <td>9806.83</td>
+                        <td>29.45</td>
+                        <td>6918.72</td>
+                        <td>BAR956606</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Kanchipuram</td>
+                        <td>Kanchipuram</td>
+                        <td>Purple</td>
+                        <td>32</td>
+                        <td>No</td>
+                        <td>03-07-24</td>
+                        <td>17860.01</td>
+                        <td>24.48</td>
+                        <td>13487.88</td>
+                        <td>BAR288814</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Handloom</td>
+                        <td>Handloom</td>
+                        <td>Blue</td>
+                        <td>46</td>
+                        <td>No</td>
+                        <td>14-07-24</td>
+                        <td>1427.20</td>
+                        <td>29.26</td>
+                        <td>1009.60</td>
+                        <td>BAR424400</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Chanderi</td>
+                        <td>Chanderi</td>
+                        <td>Pink</td>
+                        <td>1</td>
+                        <td>Yes</td>
+                        <td>21-11-24</td>
+                        <td>14574.68</td>
+                        <td>19.21</td>
+                        <td>11774.88</td>
+                        <td>BAR504901</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Organza</td>
+                        <td>Organza</td>
+                        <td>Orange</td>
+                        <td>27</td>
+                        <td>No</td>
+                        <td>31-01-25</td>
+                        <td>7970.20</td>
+                        <td>13.55</td>
+                        <td>6890.24</td>
+                        <td>BAR722707</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Tant Cotton</td>
+                        <td>Tant Cotton</td>
+                        <td>Black</td>
+                        <td>39</td>
+                        <td>Yes</td>
+                        <td>31-01-25</td>
+                        <td>1461.54</td>
+                        <td>21.48</td>
+                        <td>1147.60</td>
+                        <td>BAR414932</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Organza</td>
+                        <td>Organza</td>
+                        <td>Blue</td>
+                        <td>40</td>
+                        <td>No</td>
+                        <td>22-12-24</td>
+                        <td>9440.21</td>
+                        <td>26.14</td>
+                        <td>6972.54</td>
+                        <td>BAR927288</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Tussar Silk</td>
+                        <td>Tussar Silk</td>
+                        <td>Maroon</td>
+                        <td>27</td>
+                        <td>Yes</td>
+                        <td>09-05-24</td>
+                        <td>13095.07</td>
+                        <td>19.63</td>
+                        <td>10524.51</td>
+                        <td>BAR141158</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>Mysore Silk</td>
+                        <td>Mysore Silk</td>
+                        <td>Orange</td>
+                        <td>47</td>
+                        <td>No</td>
+                        <td>06-09-24</td>
+                        <td>8554.58</td>
+                        <td>26.25</td>
+                        <td>6309.80</td>
+                        <td>BAR534188</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="action-buttons">
+                <button id="addBtn" class="add-btn">Add</button>
+                <button id="deleteBtn" class="delete-btn">Delete</button>
+                <button id="exportBtn" class="export-btn">Export</button>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h1>Reports</h1>
+            <p>View system reports</p>
+        </div>
+
+        <div class="user-section">
+            <h1>Users</h1>
+            <p>Manage system users</p>
+        </div>
+
+        <div class="team-section">
+            <h1>Team</h1>
+            <p>Manage your team</p>
+        </div>
+    </div>
+    
+    <!-- Add Item Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h3>Add New Item</h3>
+            <form id="addForm">
+                <div class="form-group">
+                    <label for="product">Product:</label>
+                    <input type="text" id="product" name="product" required>
+                </div>
+                <div class="form-group">
+                    <label for="material">Material:</label>
+                    <input type="text" id="material" name="material" required>
+                </div>
+                <div class="form-group">
+                    <label for="color">Color:</label>
+                    <input type="text" id="color" name="color" required>
+                </div>
+                <div class="form-group">
+                    <label for="qty">Qty:</label>
+                    <input type="number" id="qty" name="qty" required>
+                </div>
+                <div class="form-group">
+                    <label for="blouse">Blouse:</label>
+                    <select id="blouse" name="blouse" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" step="0.01" id="price" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="discount">Disc%:</label>
+                    <input type="number" step="0.01" id="discount" name="discount" required>
+                </div>
+                <div class="form-group">
+                    <label for="sell">Sell:</label>
+                    <input type="number" step="0.01" id="sell" name="sell" required>
+                </div>
+                <div class="form-group">
+                    <label for="barcode">Barcode:</label>
+                    <input type="text" id="barcode" name="barcode" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" id="cancelAddBtn" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="insert-btn">Insert</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Delete Item Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h3>Delete Item</h3>
+            <form id="deleteForm">
+                <div class="form-group">
+                    <label for="barcodeSelect">Select Barcode:</label>
+                    <select id="barcodeSelect" name="barcodeSelect" required>
+                        <option value="">-- Select Barcode --</option>
+                        <option value="BAR415907">BAR415907</option>
+                        <option value="BAR956606">BAR956606</option>
+                        <option value="BAR288814">BAR288814</option>
+                        <option value="BAR424400">BAR424400</option>
+                        <option value="BAR504901">BAR504901</option>
+                        <option value="BAR722707">BAR722707</option>
+                        <option value="BAR414932">BAR414932</option>
+                        <option value="BAR927288">BAR927288</option>
+                        <option value="BAR141158">BAR141158</option>
+                        <option value="BAR534188">BAR534188</option>
+                    </select>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="delete-confirm-btn">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+   
+</body>
+</html>

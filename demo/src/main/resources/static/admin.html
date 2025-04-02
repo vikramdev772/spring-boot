@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li onclick="showSection('dashboard')" class="active">Dashboard</li>
+            <li onclick="showSection('users')">Users</li>
+            <li onclick="showSection('reports')">Reports</li>
+            <li onclick="showSection('settings')">Settings</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1 id="section-title">Dashboard</h1>
+        <p id="section-content">Welcome to the Admin Dashboard! Here you can manage the entire system.</p>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="report-section">
+            <h2>Stock Information - Sarees</h2>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Total Products</th>
+                        <th>Sold</th>
+                        <th>Remaining</th>
+                        <th>Revenue (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="report-data">
+                </tbody>
+            </table>
+
+            <!-- Team Members Levels -->
+            <h2>Team Members Levels</h2>
+            <table class="team-table">
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Number of Members</th>
+                    </tr>
+                </thead>
+                <tbody id="team-levels">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Users Section -->
+        <div id="users" class="user-section" style="display: none;">
+            <h2>Approved Members</h2>
+            <table class="user-table" id="approved-users">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <h2>New Requests</h2>
+            <table class="user-table" id="pending-users">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

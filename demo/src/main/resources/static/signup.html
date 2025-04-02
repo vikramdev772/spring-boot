@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <!-- Company Logo/Branding -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900">Employee Portal</h1>
+                <p class="text-gray-600 mt-2">Register a new team member</p>
+            </div>
+            
+            <!-- Main Form Card -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden" x-data="signupForm()">
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 h-1">
+                    <div 
+                        class="bg-blue-600 h-1 transition-all duration-300" 
+                        :style="`width: ${currentProgress}%`"
+                    ></div>
+                </div>
+                
+                <!-- Response message -->
+                <div 
+                    x-show="responseMessage" 
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform -translate-y-4"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    :class="{ 
+                        'bg-green-50 border-l-4 border-green-500': responseStatus === 'success',
+                        'bg-red-50 border-l-4 border-red-500': responseStatus === 'error'
+                    }" 
+                    class="p-4"
+                >
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i 
+                                :class="{
+                                    'fa-circle-check text-green-500': responseStatus === 'success',
+                                    'fa-circle-exclamation text-red-500': responseStatus === 'error'
+                                }"
+                                class="fas text-xl mr-3"
+                            ></i>
+                        </div>
+                        <div>
+                            <p 
+                                :class="{
+                                    'text-green-700': responseStatus === 'success',
+                                    'text-red-700': responseStatus === 'error'
+                                }"
+                                class="text-sm font-medium" 
+                                x-text="responseMessage"
+                            ></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <div class="bg-white px-6 py-4 border-b border-gray-200">
+                    <nav class="flex space-x-6">
+                        <button 
+                            @click="currentTab = 'personal'" 
+                            :class="{'text-blue-600 border-b-2 border-blue-600 font-medium': currentTab === 'personal', 'text-gray-500 hover:text-gray-700': currentTab !== 'personal'}"
+                            class="pb-4 px-1 text-sm font-medium transition-colors duration-200 focus:outline-none"
+                        >
+                            <i class="fas fa-user mr-2"></i>Personal Information
+                        </button>
+                        <button 
+                            @click="currentTab = 'employment'" 
+                            :class="{'text-blue-600 border-b-2 border-blue-600 font-medium': currentTab === 'employment', 'text-gray-500 hover:text-gray-700': currentTab !== 'employment'}"
+                            class="pb-4 px-1 text-sm font-medium transition-colors duration-200 focus:outline-none"
+                        >
+                            <i class="fas fa-briefcase mr-2"></i>Employment Information
+                        </button>
+                    </nav>
+                </div>
+                
+                <form @submit.prevent="validateAndSubmit" class="p-6">
+                    <!-- Personal Information Section -->
+                    <div x-show="currentTab === 'personal'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                        <div class="space-y-6">
+                            <!-- Full Name -->
+                            <div>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-user text-gray-400"></i>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        id="fullName" 
+                                        x-model="form.fullName" 
+                                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        placeholder="Enter your full name"
+                                        required
+                                    >
+                                </div>
+                                <p x-show="errors.fullName" x-text="errors.fullName" class="mt-1 text-sm text-red-600"></p>
+                            </div>
+                            
+                            <!-- Date of Birth -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-calendar text-gray-400"></i>
+                                    </div>
+                                    <div class="pl-10 grid grid-cols-3 gap-2">
+                                        <select 
+                                            id="dobDay" 
+                                            x-model="form.dobDay" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Day</option>
+                                            <template x-for="day in 31" :key="day">
+                                                <option :value="day" x-text="day"></option>
+                                            </template>
+                                        </select>
+                                        <select 
+                                            id="dobMonth" 
+                                            x-model="form.dobMonth" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Month</option>
+                                            <template x-for="(month, index) in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']" :key="index">
+                                                <option :value="index + 1" x-text="month"></option>
+                                            </template>
+                                        </select>
+                                        <select 
+                                            id="dobYear" 
+                                            x-model="form.dobYear" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Year</option>
+                                            <template x-for="year in getYears(1950, 2006)" :key="year">
+                                                <option :value="year" x-text="year"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p x-show="errors.dob" x-text="errors.dob" class="mt-1 text-sm text-red-600"></p>
+                            </div>
+                            
+                            <!-- Gender -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                                <div class="mt-1 flex flex-wrap gap-4">
+                                    <label class="inline-flex items-center">
+                                        <input 
+                                            type="radio" 
+                                            name="gender" 
+                                            value="Male"
+                                            x-model="form.gender"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                        >
+                                        <span class="ml-2 text-sm text-gray-700">Male</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input 
+                                            type="radio" 
+                                            name="gender" 
+                                            value="Female"
+                                            x-model="form.gender"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                        >
+                                        <span class="ml-2 text-sm text-gray-700">Female</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input 
+                                            type="radio" 
+                                            name="gender" 
+                                            value="Other"
+                                            x-model="form.gender"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                        >
+                                        <span class="ml-2 text-sm text-gray-700">Other</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input 
+                                            type="radio" 
+                                            name="gender" 
+                                            value="Prefer not to say"
+                                            x-model="form.gender"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                        >
+                                        <span class="ml-2 text-sm text-gray-700">Prefer not to say</span>
+                                    </label>
+                                </div>
+                                <p x-show="errors.gender" x-text="errors.gender" class="mt-1 text-sm text-red-600"></p>
+                            </div>
+                            
+                            <!-- Address -->
+                            <div>
+                                <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-home text-gray-400"></i>
+                                    </div>
+                                    <textarea 
+                                        id="address" 
+                                        x-model="form.address" 
+                                        rows="2" 
+                                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        placeholder="Enter your full address"
+                                        required
+                                    ></textarea>
+                                </div>
+                                <p x-show="errors.address" x-text="errors.address" class="mt-1 text-sm text-red-600"></p>
+                            </div>
+                            
+                            <!-- Contact Information: Phone and Email in 2 columns -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Phone Number -->
+                                <div>
+                                    <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-phone text-gray-400"></i>
+                                        </div>
+                                        <input 
+                                            type="tel" 
+                                            id="phoneNumber" 
+                                            x-model="form.phoneNumber" 
+                                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            placeholder="+1 (123) 456-7890"
+                                            pattern="[+]?[0-9\s\-]+"
+                                            required
+                                        >
+                                    </div>
+                                    <p x-show="errors.phoneNumber" x-text="errors.phoneNumber" class="mt-1 text-sm text-red-600"></p>
+                                </div>
+                                
+                                <!-- Email -->
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-envelope text-gray-400"></i>
+                                        </div>
+                                        <input 
+                                            type="email" 
+                                            id="email" 
+                                            x-model="form.email" 
+                                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            placeholder="name@example.com"
+                                            required
+                                        >
+                                    </div>
+                                    <p x-show="errors.email" x-text="errors.email" class="mt-1 text-sm text-red-600"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="flex justify-end mt-8">
+                            <button 
+                                type="button" 
+                                @click="goToNextTab()"
+                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                                Next <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Employment Information Section -->
+                    <div x-show="currentTab === 'employment'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                        <div class="space-y-6">
+                            <!-- Employee ID -->
+                            <div>
+                                <label for="employeeId" class="block text-sm font-medium text-gray-700 mb-1">Employee ID</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-id-badge text-gray-400"></i>
+                                    </div>
+                                    <input 
+                                        type="number" 
+                                        id="employeeId" 
+                                        x-model="form.employeeId" 
+                                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        placeholder="Enter employee ID"
+                                        min="1"
+                                        required
+                                    >
+                                </div>
+                                <p x-show="errors.employeeId" x-text="errors.employeeId" class="mt-1 text-sm text-red-600"></p>
+                            </div>
+                            
+                            <!-- Date of Joining -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Date of Joining</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-calendar-plus text-gray-400"></i>
+                                    </div>
+                                    <div class="pl-10 grid grid-cols-3 gap-2">
+                                        <select 
+                                            id="dojDay" 
+                                            x-model="form.dojDay" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Day</option>
+                                            <template x-for="day in 31" :key="day">
+                                                <option :value="day" x-text="day"></option>
+                                            </template>
+                                        </select>
+                                        <select 
+                                            id="dojMonth" 
+                                            x-model="form.dojMonth" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Month</option>
+                                            <template x-for="(month, index) in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']" :key="index">
+                                                <option :value="index + 1" x-text="month"></option>
+                                            </template>
+                                        </select>
+                                        <select 
+                                            id="dojYear" 
+                                            x-model="form.dojYear" 
+                                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required
+                                        >
+                                            <option value="">Year</option>
+                                            <template x-for="year in getYears(2000, 2025)" :key="year">
+                                                <option :value="year" x-text="year"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p x-show="errors.doj" x-text="errors.doj" class="mt-1 text-sm text-red-600"></p>
+                            </div>
+                            
+                            <!-- Branch -->
+                            <div>
+                                <label for="branch" class="block text-sm font-medium text-gray-700 mb-1">Branch</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-building text-gray-400"></i>
+                                    </div>
+                                    <select 
+                                        id="branch" 
+                                        x-model="form.branch" 
+                                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        required
+                                    >
+                                        <option value="">Select branch</option>
+                                        <option value="Main Branch">Main Branch</option>
+                                        <option value="North Branch">North Branch</option>
+                                        <option value="South Branch">South Branch</option>
+                                        <option value="East Branch">East Branch</option>
+                                        <option value="West Branch">West Branch</option>
+                                    </select>
+                                </div>
+                                <p x-show="errors.branch" x-text="errors.branch" class="mt-1 text-sm text-red-600"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="flex justify-between mt-8">
+                            <button 
+                                type="button" 
+                                @click="currentTab = 'personal'"
+                                class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                                <i class="fas fa-arrow-left mr-2"></i> Back
+                            </button>
+                            
+                            <button 
+                                type="submit" 
+                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                :disabled="isSubmitting"
+                            >
+                                <span x-show="!isSubmitting">Register Employee</span>
+                                <span x-show="isSubmitting" class="flex items-center">
+                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Processing...
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Help Section -->
+                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-circle-info text-blue-500 mr-2"></i>
+                        <p>Need help? Contact HR at <a href="mailto:hr@company.com" class="text-blue-600 hover:underline">hr@company.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function signupForm() {
+            return {
+                form: {
+                    fullName: '',
+                    dobDay: '',
+                    dobMonth: '',
+                    dobYear: '',
+                    gender: '',
+                    address: '',
+                    phoneNumber: '',
+                    email: '',
+                    employeeId: '',
+                    dojDay: '',
+                    dojMonth: '',
+                    dojYear: '',
+                    branch: ''
+                },
+                currentTab: 'personal',
+                isSubmitting: false,
+                responseMessage: '',
+                responseStatus: '',
+                errors: {},
+    
+                get currentProgress() {
+                    return this.isSubmitting ? 100 : this.currentTab === 'personal' ? 50 : 90;
+                },
+    
+                getYears(start, end) {
+                    return Array.from({ length: end - start + 1 }, (_, i) => end - i);
+                },
+    
+                validatePersonalInfo() {
+                    this.errors = {};
+                    let isValid = true;
+    
+                    if (!this.form.fullName.trim()) this.errors.fullName = 'Full name is required';
+                    if (!this.form.dobDay || !this.form.dobMonth || !this.form.dobYear) this.errors.dob = 'Complete date of birth is required';
+                    if (!this.form.gender) this.errors.gender = 'Gender selection is required';
+                    if (!this.form.address.trim()) this.errors.address = 'Address is required';
+                    if (!this.form.phoneNumber.trim() || !/^[+]?[0-9\s\-]+$/.test(this.form.phoneNumber)) {
+                        this.errors.phoneNumber = 'Please enter a valid phone number';
+                    }
+                    if (!this.form.email.trim() || !/^\S+@\S+\.\S+$/.test(this.form.email)) {
+                        this.errors.email = 'Please enter a valid email address';
+                    }
+    
+                    return Object.keys(this.errors).length === 0;
+                },
+    
+                validateEmploymentInfo() {
+                    this.errors = {};
+                    
+                    if (!this.form.employeeId || isNaN(this.form.employeeId)) {
+                        this.errors.employeeId = 'Valid Employee ID is required';
+                    }
+                    if (!this.form.dojDay || !this.form.dojMonth || !this.form.dojYear) {
+                        this.errors.doj = 'Complete date of joining is required';
+                    }
+                    if (!this.form.branch.trim()) {
+                        this.errors.branch = 'Branch selection is required';
+                    }
+    
+                    return Object.keys(this.errors).length === 0;
+                },
+    
+                goToNextTab() {
+                    if (this.validatePersonalInfo()) {
+                        this.currentTab = 'employment';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                },
+    
+                validateAndSubmit() {
+                    this.errors = {};
+                    if (this.currentTab === 'personal') {
+                        if (this.validatePersonalInfo()) this.currentTab = 'employment';
+                    } else {
+                        if (this.validateEmploymentInfo()) this.submitForm();
+                    }
+                },
+    
+                async submitForm() {
+                    this.isSubmitting = true;
+                    this.responseMessage = '';
+    
+                    try {
+                        const response = await fetch('http://localhost:6060/api/signup', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                fullName: this.form.fullName,
+                                dob: `${this.form.dobYear}-${String(this.form.dobMonth).padStart(2, '0')}-${String(this.form.dobDay).padStart(2, '0')}`,
+                                gender: this.form.gender,
+                                address: this.form.address,
+                                phoneNumber: this.form.phoneNumber,
+                                email: this.form.email,
+                                employeeId: parseInt(this.form.employeeId, 10),
+                                dateOfJoining: `${this.form.dojYear}-${String(this.form.dojMonth).padStart(2, '0')}-${String(this.form.dojDay).padStart(2, '0')}`,
+                                branch: this.form.branch
+                            })
+                        });
+    
+                        if (!response.ok) {
+                            this.responseStatus = 'error';
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+    
+                        const data = await response.json();
+    
+                        if (data.status === 'success') {
+                            this.responseStatus = 'success';
+                            this.responseMessage = `${data.message} (Employee ID: ${data.employeeId})`;
+                            this.resetForm();
+                            this.currentTab = 'personal';
+                        } else {
+                            this.responseStatus = 'error';
+                            this.responseMessage = data.message || 'Error creating employee. Please try again.';
+                        }
+                    } catch (error) {
+                        this.responseStatus = 'error';
+                        this.responseMessage = error.message || 'Server error. Please check if the API server is running.';
+                        console.error('Error:', error);
+                    } finally {
+                        this.isSubmitting = false;
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                },
+    
+                resetForm() {
+                    this.form = {
+                        fullName: '',
+                        dobDay: '',
+                        dobMonth: '',
+                        dobYear: '',
+                        gender: '',
+                        address: '',
+                        phoneNumber: '',
+                        email: '',
+                        employeeId: '',
+                        dojDay: '',
+                        dojMonth: '',
+                        dojYear: '',
+                        branch: ''
+                    };
+                    this.errors = {};
+                }
+            };
+        }
+    </script>
+    
+</body>

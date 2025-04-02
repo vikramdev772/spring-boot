@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesXP - Main Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --admin-color: #7e22ce;
+            --admin-dark: #6b21a8;
+            --billing-color: #16a34a;
+            --billing-dark: #15803d;
+            --sales-color: #ea580c;
+            --sales-dark: #c2410c;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 40px;
+            border-radius: 16px;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary-color), var(--admin-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .role-card {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .role-card.admin::before {
+            background-color: var(--admin-color);
+        }
+
+        .role-card.billing::before {
+            background-color: var(--billing-color);
+        }
+
+        .role-card.sales::before {
+            background-color: var(--sales-color);
+        }
+
+        .role-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .admin .icon-wrapper {
+            background-color: rgba(126, 34, 206, 0.1);
+            color: var(--admin-color);
+        }
+
+        .billing .icon-wrapper {
+            background-color: rgba(22, 163, 74, 0.1);
+            color: var(--billing-color);
+        }
+
+        .sales .icon-wrapper {
+            background-color: rgba(234, 88, 12, 0.1);
+            color: var(--sales-color);
+        }
+
+        .role-card:hover .icon-wrapper {
+            transform: scale(1.1);
+        }
+
+        .role-icon {
+            font-size: 32px;
+        }
+
+        .role-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .admin .role-title {
+            color: var(--admin-color);
+        }
+
+        .billing .role-title {
+            color: var(--billing-color);
+        }
+
+        .sales .role-title {
+            color: var(--sales-color);
+        }
+
+        .role-description {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .role-button {
+            margin-top: auto;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .admin .role-button {
+            background-color: var(--admin-color);
+        }
+
+        .admin .role-button:hover {
+            background-color: var(--admin-dark);
+        }
+
+        .billing .role-button {
+            background-color: var(--billing-color);
+        }
+
+        .billing .role-button:hover {
+            background-color: var(--billing-dark);
+        }
+
+        .sales .role-button {
+            background-color: var(--sales-color);
+        }
+
+        .sales .role-button:hover {
+            background-color: var(--sales-dark);
+        }
+
+        .footer {
+            margin-top: 50px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo, h1, .tagline {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .role-card:nth-child(1) {
+            animation: fadeInUp 0.6s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .role-card:nth-child(2) {
+            animation: fadeInUp 0.6s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .role-card:nth-child(3) {
+            animation: fadeInUp 0.6s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .footer {
+            animation: fadeInUp 0.6s ease 0.8s forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+        </div>
+        <h1>SalesXP</h1>
+        <p class="tagline">Streamlined sales management platform for your business</p>
+        
+        <div class="section">
+            <div class="role-card admin" onclick="redirectToSignIn(1)">
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-shield role-icon"></i>
+                </div>
+                <h3 class="role-title">Administrator</h3>
+                <p class="role-description">Manage users, settings, and monitor your entire sales ecosystem</p>
+                <button class="role-button">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </div>
+            
+            <div class="role-card billing" onclick="redirectToSignIn(2)">
+                <div class="icon-wrapper">
+                    <i class="fas fa-cash-register role-icon"></i>
+                </div>
+                <h3 class="role-title">Billing Desk</h3>
+                <p class="role-description">Process payments, manage invoices, and handle financial transactions</p>
+                <button class="role-button">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </div>
+            
+            <div class="role-card sales" onclick="redirectToSignIn(3)">
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-tie role-icon"></i>
+                </div>
+                <h3 class="role-title">Sales Person</h3>
+                <p class="role-description">Track leads, manage customer relationships, and close deals</p>
+                <button class="role-button">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 SalesXP. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        function redirectToSignIn(roleId) {
+            // Store the role ID in session storage or use query parameters
+            sessionStorage.setItem('selectedRole', roleId);
+            
+            // Navigate to login page
+            window.location.href = 'login.html';
+            
+            // For demonstration purposes, show which role was selected
+            const roles = ['Administrator', 'Billing Desk', 'Sales Person'];
+            console.log(`Redirecting to login as: ${roles[roleId-1]}`);
+        }
+    </script>
+</body>
+</html>

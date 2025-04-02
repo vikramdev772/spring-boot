@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Data View - Command Style</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ccc;
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .console {
+            white-space: pre-wrap;
+            margin-bottom: 8px;
+        }
+        .command {
+            color: #fff;
+        }
+        table {
+            border-collapse: collapse;
+            /* width: 100%; */
+            width: 55%;
+            margin: 1px 0;
+            font-size: 0.8em;
+        }
+        th, td {
+            border: 1.6px dashed #333;
+            padding: 3px 4px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #222;
+            color: #0f0;
+        }
+        tr:nth-child(even) {
+            background-color: #111;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .table-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            margin: 8px 0;
+        }
+        .footer {
+            color: #0f0;
+            margin-top: 8px;
+        }
+        .divider {
+            margin: 5px 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Saree Inventory Table -->
+    <div class="console">
+C:\users\admin&gt;<span class="command"> select * from saree_inventory;</span>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>SNO</th><th>Product</th><th>Material</th><th>Color</th>
+                    <th>Qty</th><th>Blouse</th><th>Date</th>
+                    <th>Price</th><th>Disc%</th><th>Sell</th><th>Barcode</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Cotton Silk</td><td>Cotton Silk</td><td>Blue</td><td>21</td><td>No</td><td>28-01-24</td><td>15074.30</td><td>26.63</td><td>11060.01</td><td>BAR415907</td></tr>
+                <tr><td>2</td><td>Tussar Silk</td><td>Tussar Silk</td><td>Silver</td><td>45</td><td>Yes</td><td>22-12-24</td><td>9806.83</td><td>29.45</td><td>6918.72</td><td>BAR956606</td></tr>
+                <tr><td>3</td><td>Kanchipuram</td><td>Kanchipuram</td><td>Purple</td><td>32</td><td>No</td><td>03-07-24</td><td>17860.01</td><td>24.48</td><td>13487.88</td><td>BAR288814</td></tr>
+                <tr><td>4</td><td>Handloom</td><td>Handloom</td><td>Blue</td><td>46</td><td>No</td><td>14-07-24</td><td>1427.20</td><td>29.26</td><td>1009.60</td><td>BAR424400</td></tr>
+                <tr><td>5</td><td>Chanderi</td><td>Chanderi</td><td>Pink</td><td>1</td><td>Yes</td><td>21-11-24</td><td>14574.68</td><td>19.21</td><td>11774.88</td><td>BAR504901</td></tr>
+                <tr><td>6</td><td>Organza</td><td>Organza</td><td>Orange</td><td>27</td><td>No</td><td>31-01-25</td><td>7970.20</td><td>13.55</td><td>6890.24</td><td>BAR722707</td></tr>
+                <tr><td>7</td><td>Tant Cotton</td><td>Tant Cotton</td><td>Black</td><td>39</td><td>Yes</td><td>31-01-25</td><td>1461.54</td><td>21.48</td><td>1147.60</td><td>BAR414932</td></tr>
+                <tr><td>8</td><td>Organza</td><td>Organza</td><td>Blue</td><td>40</td><td>No</td><td>22-12-24</td><td>9440.21</td><td>26.14</td><td>6972.54</td><td>BAR927288</td></tr>
+                <tr><td>9</td><td>Tussar Silk</td><td>Tussar Silk</td><td>Maroon</td><td>27</td><td>Yes</td><td>09-05-24</td><td>13095.07</td><td>19.63</td><td>10524.51</td><td>BAR141158</td></tr>
+                <tr><td>10</td><td>Mysore Silk</td><td>Mysore Silk</td><td>Orange</td><td>47</td><td>No</td><td>06-09-24</td><td>8554.58</td><td>26.25</td><td>6309.80</td><td>BAR534188</td></tr>
+                <!-- <tr><td>11</td><td>Chettinad</td><td>Chettinad</td><td>White</td><td>26</td><td>No</td><td>28-05-24</td><td>8925.19</td><td>12.26</td><td>7830.96</td><td>BAR257429</td></tr>
+                <tr><td>12</td><td>Tant Cotton</td><td>Tant Cotton</td><td>Maroon</td><td>11</td><td>Yes</td><td>20-04-24</td><td>3849.59</td><td>16.25</td><td>3224.03</td><td>BAR380583</td></tr>
+                <tr><td>13</td><td>Kanchipuram</td><td>Kanchipuram</td><td>Blue</td><td>10</td><td>Yes</td><td>14-09-24</td><td>1778.99</td><td>24.35</td><td>1345.81</td><td>BAR453349</td></tr>
+                <tr><td>14</td><td>Georgette</td><td>Georgette</td><td>Black</td><td>47</td><td>No</td><td>24-11-24</td><td>12057.94</td><td>17.80</td><td>9911.63</td><td>BAR289795</td></tr>
+                <tr><td>15</td><td>Kanchipuram</td><td>Kanchipuram</td><td>White</td><td>1</td><td>No</td><td>11-07-24</td><td>8333.81</td><td>10.18</td><td>7485.43</td><td>BAR814329</td></tr>
+                <tr><td>16</td><td>Crepe</td><td>Crepe</td><td>Maroon</td><td>2</td><td>No</td><td>13-09-24</td><td>4967.62</td><td>11.68</td><td>4387.40</td><td>BAR813617</td></tr>
+                <tr><td>17</td><td>Tant Cotton</td><td>Tant Cotton</td><td>Black</td><td>25</td><td>Yes</td><td>12-09-24</td><td>6857.53</td><td>8.19</td><td>6295.90</td><td>BAR539533</td></tr>
+                <tr><td>18</td><td>Kanchipuram</td><td>Kanchipuram</td><td>Yellow</td><td>14</td><td>Yes</td><td>23-07-24</td><td>13011.87</td><td>21.85</td><td>10168.78</td><td>BAR403201</td></tr>
+                <tr><td>19</td><td>Crepe</td><td>Crepe</td><td>Maroon</td><td>11</td><td>No</td><td>14-04-24</td><td>1856.25</td><td>17.08</td><td>1539.20</td><td>BAR943292</td></tr> -->
+            </tbody>
+        </table>
+    </div>
+    <div class="footer">
+19 rows in set (0.00 sec)
+    </div>
+
+    <!-- <div class="divider">──────────────────────────────</div> -->
+
+    <!-- Sales Person Table -->
+    <div class="console">
+C:\users\admin&gt;<span class="command"> select * from sales_person;</span>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Emp ID</th><th>Sales</th><th>Commission</th><th>Level</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>EMP001</td><td>1250000.00</td><td>62500.00</td><td>L3</td></tr>
+                <tr><td>2</td><td>EMP002</td><td>875000.50</td><td>43750.03</td><td>L2</td></tr>
+                <tr><td>3</td><td>EMP003</td><td>2100000.75</td><td>105000.04</td><td>L4</td></tr>
+                <tr><td>4</td><td>EMP004</td><td>650000.00</td><td>32500.00</td><td>L2</td></tr>
+                <tr><td>5</td><td>EMP005</td><td>980000.25</td><td>49000.01</td><td>L3</td></tr>
+                <tr><td>6</td><td>EMP006</td><td>420000.99</td><td>21000.05</td><td>L1</td></tr>
+                <tr><td>7</td><td>EMP007</td><td>1500000.50</td><td>75000.03</td><td>L3</td></tr>
+                <tr><td>8</td><td>EMP008</td><td>3200000.00</td><td>160000.00</td><td>L4</td></tr>
+                <tr><td>9</td><td>EMP009</td><td>725000.75</td><td>36250.04</td><td>L2</td></tr>
+                <tr><td>10</td><td>EMP010</td><td>1100000.25</td><td>55000.01</td><td>L3</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer">
+10 rows in set (0.00 sec)
+    </div>
+
+    <!-- <div class="divider">──────────────────────────────</div> -->
+
+    <!-- Sales Table -->
+    <div class="console">
+C:\users\admin&gt;<span class="command"> select * from sales</span>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th><th>Emp ID</th><th>Customer</th><th>Number</th>
+                    <th>Date/Time</th><th>Amount</th><th>Commission</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>EMP001</td><td>Rahul Sharma</td><td>9876543210</td><td>2023-11-01 10:30</td><td>15000.00</td><td>750.00</td></tr>
+                <tr><td>2</td><td>EMP002</td><td>Priya Patel</td><td>8765432109</td><td>2023-11-01 11:45</td><td>22500.50</td><td>1125.03</td></tr>
+                <tr><td>3</td><td>EMP003</td><td>Amit Singh</td><td>7654321098</td><td>2023-11-02 09:15</td><td>18000.75</td><td>900.00</td></tr>
+                <tr><td>4</td><td>EMP001</td><td>Neha Gupta</td><td>6543210987</td><td>2023-11-02 14:20</td><td>32000.00</td><td>1600.00</td></tr>
+                <tr><td>5</td><td>EMP004</td><td>Vikram Joshi</td><td>5432109876</td><td>2023-11-03 12:00</td><td>27500.25</td><td>1375.01</td></tr>
+                <tr><td>6</td><td>EMP002</td><td>Ananya Reddy</td><td>4321098765</td><td>2023-11-03 16:30</td><td>18999.99</td><td>950.00</td></tr>
+                <tr><td>7</td><td>EMP003</td><td>Arjun Malhotra</td><td>3210987654</td><td>2023-11-04 10:00</td><td>42000.50</td><td>2100.03</td></tr>
+                <tr><td>8</td><td>EMP005</td><td>Divya Iyer</td><td>2199876543</td><td>2023-11-04 15:45</td><td>31500.00</td><td>1575.00</td></tr>
+                <tr><td>9</td><td>EMP001</td><td>Sanjay Verma</td><td>1998765432</td><td>2023-11-05 11:30</td><td>24500.75</td><td>1225.04</td></tr>
+                <tr><td>10</td><td>EMP004</td><td>Pooja Mehta</td><td>9987654321</td><td>2023-11-05 17:15</td><td>36000.25</td><td>1800.01</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="console">
+10 rows in set (0.00 sec)<br><br>
+C:\users\admin&gt;<span class="blink">_</span>
+    </div>
+</body>
+</html>

@@ -14,7 +14,7 @@ async function validateLogin() {
     }
 
     try {
-        const response = await fetch('http://localhost:6060/api/login', {
+        const response = await fetch('https://spring-boot-3pdb.onrender.com/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
